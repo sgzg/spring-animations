@@ -35,8 +35,9 @@ This plugin enables realistic spring animations for HTML elements using custom a
 2.  Include the file in your HTML:
 
   
-`<script src="https://cdn.jsdelivr.net/gh/OZORDI/spring-animations@main/spring.js"></script>
-`
+```
+<script src="https://cdn.jsdelivr.net/gh/OZORDI/spring-animations@main/spring.js"></script>
+```
 
   
 
@@ -51,8 +52,9 @@ This plugin enables realistic spring animations for HTML elements using custom a
 1.  Install the package using npm:
 
   
-`npm install spring-animation-plugin
-`
+```
+npm install spring-animation-plugin
+```
 
   
 
@@ -61,8 +63,9 @@ This plugin enables realistic spring animations for HTML elements using custom a
 2.  Import it in your JavaScript file:
 
   
-`import  'spring-animation-plugin';
-`
+```
+import  'spring-animation-plugin';
+```
 
   
 
@@ -94,10 +97,10 @@ To apply a spring animation, add the data-spring attribute to an HTML element:
 
 
 
-```
+`
 <a data-spring="duration:0.5, bounce:0.4, properties:color,border-color" href="/contact" class="contact-button">Contact Us</a>
 
-```
+`
   
 
 This applies a spring animation to both color and border-color with a duration of 0.5 seconds and a bounce factor of 0.4.
@@ -112,9 +115,9 @@ Configure all parameters in the data-spring attribute:
 
   
 
-```
+`
 <a data-spring="duration:0.6, bounce:0.3, properties:background-color,transform" href="/about" class="about-button">About Us</a>
-```
+`
 
   
 
@@ -128,9 +131,9 @@ This animates the background-color and transform properties with a 0.6-second du
 
 For more precise control, use individual data-spring attributes:
 
-  ```
+  `
   <a data-spring-duration="0.45" data-spring-bounce="0.5" data-spring-properties="color,border-color" href="/services" class="services-button">  Services </a>
-```
+`
 
 
 
