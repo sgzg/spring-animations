@@ -227,6 +227,6 @@ The data-spring attribute allows you to configure all settings in a single strin
 
   
 
-This plugin is licensed under the MIT License. For more details, see the `[LICENSE](https://github.com/OZORDI/spring-animations/blob/main/LICENSE)` file.
+This plugin is licensed under the MIT License. For more details, see the [LICENSE](https://github.com/OZORDI/spring-animations/blob/main/LICENSE) file.
   
 
