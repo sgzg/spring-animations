@@ -1,4 +1,4 @@
-# **Spring AnimationS Documentation**
+# **Spring Animations Documentation**
 
   
 
