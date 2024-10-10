@@ -157,11 +157,15 @@ You can use individual custom attributes to fine-tune animations:
 | `data-spring-damping`             | Regulates how quickly the spring loses momentum | 10            | 7                                           |
 | `data-spring-properties`          | Comma-separated list of CSS properties to animate | `transform`   | `color,border-color,background-color`       |
 | `data-spring-perceptual-duration` | Controls the perceived duration of the animation | 1             | 1.5                                         |
-**Example with Custom Attributes**
+
+
+**Example with Custom Attributes**  
+
+`<a data-spring-duration="0.6" data-spring-bounce="0.3" data-spring-stiffness="150" data-spring-damping="8" data-spring-properties="background-color,transform" href="/example" class="example-button"> Example </a>`  
 
   
 
-`<a data-spring-duration="0.6" data-spring-bounce="0.3" data-spring-stiffness="150" data-spring-damping="8" data-spring-properties="background-color,transform" href="/example" class="example-button"> Example </a>`  
+
 
   
 
