@@ -39,7 +39,7 @@ This plugin enables realistic spring animations for HTML elements using custom a
 2.  Include the file in your HTML:
 
   
-`<script src="https://cdn.jsdelivr.net/gh/OZORDI/spring-animations/spring.js"></script>
+`<script src="https://cdn.jsdelivr.net/gh/OZORDI/spring-animations@main/spring.js"></script>
 `
 
   
