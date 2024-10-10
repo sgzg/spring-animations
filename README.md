@@ -1,10 +1,6 @@
-# Spring Animations Documentation
+# **Spring Animations Documentation**
 
-  
-
-**Overview**
----
-  
+    
 
 This plugin enables realistic spring animations for HTML elements using custom attributes. It offers control over animation parameters like duration, bounce, stiffness, damping, and mass. You can also define which CSS properties to animate, making the plugin both flexible and simple to use.
 
