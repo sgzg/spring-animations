@@ -1,3 +1,4 @@
+
 # **Spring Animations Documentation**
 
     
@@ -97,10 +98,7 @@ To apply a spring animation, add the data-spring attribute to an HTML element:
 
 
 
-`
-<a data-spring="duration:0.5, bounce:0.4, properties:color,border-color" href="/contact" class="contact-button">Contact Us</a>
-
-`
+`<div data-spring="duration:0.5, bounce:0.4, properties:color,border-color"> Example </div>`
   
 
 This applies a spring animation to both color and border-color with a duration of 0.5 seconds and a bounce factor of 0.4.
@@ -115,9 +113,7 @@ Configure all parameters in the data-spring attribute:
 
   
 
-`
-<a data-spring="duration:0.6, bounce:0.3, properties:background-color,transform" href="/about" class="about-button">About Us</a>
-`
+`<div data-spring="duration:0.6, bounce:0.3, properties:background-color,transform" class="example"> Example </div>`
 
   
 
@@ -131,9 +127,7 @@ This animates the background-color and transform properties with a 0.6-second du
 
 For more precise control, use individual data-spring attributes:
 
-  `
-  <a data-spring-duration="0.45" data-spring-bounce="0.5" data-spring-properties="color,border-color" href="/services" class="services-button">  Services </a>
-`
+  `<div data-spring-duration="0.45" data-spring-bounce="0.5" data-spring-properties="color,border-color">  Example </div>`
 
 
 
@@ -166,7 +160,7 @@ You can use individual custom attributes to fine-tune animations:
 
 **Example with Custom Attributes**  
 
-`<a data-spring-duration="0.6" data-spring-bounce="0.3" data-spring-stiffness="150" data-spring-damping="8" data-spring-properties="background-color,transform" href="/example" class="example-button"> Example </a>`  
+`<div data-spring-duration="0.6" data-spring-bounce="0.3" data-spring-stiffness="150" data-spring-damping="8" data-spring-properties="background-color,transform" class="example"> Example </div>`  
 
   
 
@@ -185,9 +179,9 @@ In this case, the animation uses a 0.6-second duration, 0.3 bounce, 150 stiffnes
 The data-spring attribute allows you to configure all settings in a single string. The format is:
 
   
-``  
-`data-spring="key1:value1, key2:value2, ..."
-` ``
+```  
+data-spring="key1:value1, key2:value2, ..."
+```
 
   
 
@@ -213,7 +207,7 @@ The data-spring attribute allows you to configure all settings in a single strin
 
   
 
-`<a data-spring="duration:0.3, bounce:0.4, properties:color,border-color,background-color" href="/gallery" class="gallery-button">See All</a>`
+`<a data-spring="duration:0.3, bounce:0.4, properties:color,border-color,background-color" href="/gallery"> Gallery </a>`
 
 
   
