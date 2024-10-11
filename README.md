@@ -60,7 +60,7 @@ This plugin enables realistic spring animations for HTML elements using custom a
 
   
 ```
-npm install spring-animation-plugin
+npm install @ozordi/springs  
 ```
 
   
@@ -71,7 +71,7 @@ npm install spring-animation-plugin
 
   
 ```
-import  'spring-animation-plugin';
+import  '@ozordi/springs';
 ```
 
   
