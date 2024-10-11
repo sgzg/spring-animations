@@ -1,4 +1,5 @@
 
+
 # **Spring Animations Documentation**
 
     
@@ -17,10 +18,15 @@ This plugin enables realistic spring animations for HTML elements using custom a
 
 •  **Shorthand Support**: Configure all animation parameters in a single data-spring attribute.
 
+•  **Presets for Quick Configuration**: Use predefined animation presets for common configurations.
+
+•  **Negative Bounce Support**: Define bounce values from -1 to 1 for a variety of spring responses.
+
+
 •  **Fallback Defaults**: Unspecified parameters revert to sensible defaults, allowing you to configure only the essential elements.
 
-  
 
+  
 
 
 **Installation**
@@ -155,7 +161,8 @@ You can use individual custom attributes to fine-tune animations:
 | `data-spring-stiffness`           | Adjusts the stiffness of the spring             | 100           | 150                                         |
 | `data-spring-damping`             | Regulates how quickly the spring loses momentum | 10            | 7                                           |
 | `data-spring-properties`          | Comma-separated list of CSS properties to animate | `transform`   | `color,border-color,background-color`       |
-| `data-spring-perceptual-duration` | Controls the perceived duration of the animation | 1             | 1.5                                         |
+| `data-spring-perceptual-duration` | Controls the perceived duration of the animation | 1             | 1.5 
+| `data-spring-preset` | Apply a preset configuration for common animation styles | N/A             | `smooth`                                   
 
 
 **Example with Custom Attributes**  
@@ -210,7 +217,30 @@ data-spring="key1:value1, key2:value2, ..."
 `<a data-spring="duration:0.3, bounce:0.4, properties:color,border-color,background-color" href="/gallery"> Gallery </a>`
 
 
+ **Presets**
+--- 
+The plugin includes three predefined presets for common animation styles that can be applied easily:
+1. ``bouncy``: A higher bounce value for an energetic spring effect.
+
+2. ``smooth``: A smooth deceleration without bounce.
+
+3. ``flattened``: A slower, more deliberate motion with a negative bounce.
+
+**Momentum Tracking**
+---
   
+
+The plugin intelligently tracks the momentum and velocity of animated elements. If the element’s size or position changes during the animation:
+
+  
+
+•  **Size Changes**: It detects changes in surface area (height * width) to adjust the animation accordingly.
+
+•  **Position Changes**: It monitors the CSS transform property for any movement.
+
+  
+
+This ensures smooth transitions even if the target properties change mid-animation, maintaining the fluidity of the animation.
 
 **Important Notes**
 ---
@@ -228,4 +258,3 @@ data-spring="key1:value1, key2:value2, ..."
 
 This plugin is licensed under the MIT License. For more details, see the [LICENSE](https://github.com/OZORDI/spring-animations/blob/main/LICENSE) file.
   
-
