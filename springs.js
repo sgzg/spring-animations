@@ -5,8 +5,8 @@ class Spring {
     mass = 1,
     stiffness = 100,
     damping = 10,
-    properties = ['transform'], // Default to 'transform', customizable via attributes
-    preset = null, // Preset (bouncy, smooth, flattened)
+    properties = ['transform'],
+    preset = null,
   } = {}) {
     this.mass = mass;
     this.stiffness = stiffness;
@@ -15,29 +15,43 @@ class Spring {
     this.bounce = bounce;
     this.properties = properties;
 
-    if (preset) this.applyPreset(preset); // Apply preset if specified
+    if (preset) this.applyPreset(preset);
   }
 
   // Apply preset configurations (bouncy, smooth, flattened)
   applyPreset(preset) {
     const presets = {
-      bouncy: { stiffness: 150, damping: 20, duration: 0.75 },
-      smooth: { stiffness: 120, damping: 15, duration: 0.5 },
-      flattened: { stiffness: 80, damping: 5, duration: 0.3 },
+      bouncy: { bounce: 0.4, stiffness: 200, damping: 5 },
+      smooth: { bounce: 0, stiffness: 100, damping: 8 },
+      flattened: { bounce: -0.4, stiffness: 80, damping: 15 },
     };
-    const presetConfig = presets[preset];
+    const presetConfig = presets[preset.toLowerCase()];
     if (presetConfig) {
+      this.bounce = presetConfig.bounce;
       this.stiffness = presetConfig.stiffness;
       this.damping = presetConfig.damping;
-      this.duration = presetConfig.duration;
+    } else {
+      console.warn(`Unknown preset: ${preset}. Using default values.`);
     }
+  }
+
+  // Spring equation for bounce cases
+  springEquation1(A, B, a, c, t) {
+    return (A * Math.exp(a * t) + B * Math.exp(-a * t)) * Math.exp(-c * t);
+  }
+
+  // Spring equation for smooth cases without bounce
+  springEquation2(A, B, c, t) {
+    return (A * t + B) * Math.exp(-c * t);
   }
 
   // Calculate the spring value based on parameters
   calculateSpringValue(A, B, a, c, t) {
-    const dampingRatio = c / (2 * Math.sqrt(a));
-    const naturalFrequency = Math.sqrt(a);
-    return (A - B) * Math.exp(-dampingRatio * t) * Math.cos(naturalFrequency * t) + B;
+    if (this.bounce > 0) {
+      return this.springEquation1(A, B, a, c, t); // Use bounce equation
+    } else {
+      return this.springEquation2(A, B, c, t); // Use smooth equation
+    }
   }
 
   // Apply spring animation to specified properties on an element
@@ -49,15 +63,15 @@ class Spring {
 
     let startTime;
 
-    const bezierCurve = this.generateBezierCurve(); // Generate the Bezier curve
-    element.style.transition = `transform ${this.duration}s ${bezierCurve}`; // Apply transition with Bezier
+    const bezierCurve = this.generateBezierCurve();
+    element.style.transition = `transform ${this.duration}s ${bezierCurve}`;
 
     const animate = (time) => {
       if (!startTime) startTime = time;
       const t = (time - startTime) / 1000;
 
       const newValue = this.calculateSpringValue(A, B, a, c, t);
-      element.style.transform = `translateY(${newValue}px)`; // Update the transform directly
+      element.style.transform = `translateY(${newValue}px)`; 
 
       if (t < this.duration) {
         requestAnimationFrame(animate);
@@ -94,6 +108,24 @@ class Spring {
       properties,
     });
   }
+
+  // Parse shorthand data-spring attribute (with improved error handling)
+  static parseShorthand(springShorthand) {
+    const params = springShorthand.split(',').reduce((acc, param) => {
+      let [key, value] = param.split(':').map(item => item.trim());
+      if (key && value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+    return {
+      duration: parseFloat(params.duration) || 0.5,
+      bounce: parseFloat(params.bounce) || 0.2,
+      mass: parseFloat(params.mass) || 1,
+      properties: params.properties ? params.properties.split(',').map(prop => prop.trim()) : ['transform'],
+    };
+  }
 }
 
 // Utility to automatically apply spring animations based on attributes
@@ -108,9 +140,6 @@ function applySpringAnimationsFromAttributes() {
       const spring = Spring.fromAttributes(element);
       if (spring) {
         spring.applyToElement(element);
-        console.log("Spring applied to element:", element);
-      } else {
-        console.warn("Spring instance could not be created for element:", element);
       }
     }
   });
