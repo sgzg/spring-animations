@@ -57,9 +57,7 @@ class Spring {
     let startTime;
 
     const bezierCurve = this.generateBezierCurve();
-    this.properties.forEach(property => {
-      element.style.transition = `${property} ${this.duration}s ${bezierCurve}`;
-    });
+    element.style.transition = `transform ${this.duration}s ${bezierCurve}`;
 
     const animate = (time) => {
       if (!startTime) startTime = time;
@@ -96,7 +94,7 @@ class Spring {
     const bounce = element.getAttribute('data-spring-bounce') || 0.2;
     const mass = element.getAttribute('data-spring-mass') || 1;
     const propertiesAttr = element.getAttribute('data-spring-properties');
-    const properties = propertiesAttr ? propertiesAttr.split(' ').map(prop => prop.trim()) : ['transform'];
+    const properties = propertiesAttr ? propertiesAttr.split(',').map(prop => prop.trim()) : ['transform'];
 
     return new Spring({
       duration: parseFloat(duration),
@@ -115,18 +113,20 @@ class Spring {
       return acc;
     }, {});
 
+    const properties = params.properties ? params.properties.match(/'([^']+)'/)[1].split(',').map(prop => prop.trim()) : ['transform'];
+
     return {
       duration: parseFloat(params.duration) || 0.5,
       bounce: parseFloat(params.bounce) || 0.2,
       mass: parseFloat(params.mass) || 1,
-      properties: params.properties ? params.properties.split(' ').map(prop => prop.trim()) : ['transform'],
+      properties: properties,
     };
   }
 }
 
 // Utility to automatically apply spring animations based on attributes
 function applySpringAnimationsFromAttributes() {
-  const elements = document.querySelectorAll('*');
+  const elements = document.querySelectorAll('*'); 
 
   elements.forEach((element) => {
     const attributes = Array.from(element.attributes);
