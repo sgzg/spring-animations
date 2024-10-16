@@ -29,6 +29,8 @@ class Spring {
       this.bounce = presetConfig.bounce;
       this.stiffness = presetConfig.stiffness;
       this.damping = presetConfig.damping;
+    } else {
+      console.warn(`Unknown preset: ${preset}. Using default values.`);
     }
   }
 
@@ -49,15 +51,17 @@ class Spring {
   }
 
   applyToElement(element) {
-    const A = 0;
-    const B = parseFloat(getComputedStyle(element).transform.split(',')[5]) || 0;
+    const A = 0; 
+    const B = parseFloat(getComputedStyle(element).transform.split(',')[5]) || 0; 
     const a = this.stiffness;
     const c = this.damping;
 
     let startTime;
 
     const bezierCurve = this.generateBezierCurve();
-    element.style.transition = `transform ${this.duration}s ${bezierCurve}`;
+    this.properties.forEach(property => {
+      element.style.transition = `${property} ${this.duration}s ${bezierCurve}`;
+    });
 
     const animate = (time) => {
       if (!startTime) startTime = time;
@@ -65,14 +69,14 @@ class Spring {
 
       const newValue = this.calculateSpringValue(A, B, a, c, t);
       this.properties.forEach(property => {
-        element.style[property] = newValue; 
+        element.style[property] = property === 'transform' ? `translateY(${newValue}px)` : newValue; 
       });
 
       if (t < this.duration) {
         requestAnimationFrame(animate);
       } else {
         this.properties.forEach(property => {
-          element.style[property] = `${A}`; 
+          element.style[property] = property === 'transform' ? `${A}px` : ''; 
         });
       }
     };
@@ -94,7 +98,7 @@ class Spring {
     const bounce = element.getAttribute('data-spring-bounce') || 0.2;
     const mass = element.getAttribute('data-spring-mass') || 1;
     const propertiesAttr = element.getAttribute('data-spring-properties');
-    const properties = propertiesAttr ? propertiesAttr.split(',').map(prop => prop.trim()) : ['transform'];
+    const properties = propertiesAttr ? propertiesAttr.split(' ').map(prop => prop.trim()) : ['transform'];
 
     return new Spring({
       duration: parseFloat(duration),
@@ -117,11 +121,12 @@ class Spring {
       duration: parseFloat(params.duration) || 0.5,
       bounce: parseFloat(params.bounce) || 0.2,
       mass: parseFloat(params.mass) || 1,
-      properties: params.properties ? params.properties.split(',').map(prop => prop.trim()) : ['transform'],
+      properties: params.properties ? params.properties.split(' ').map(prop => prop.trim()) : ['transform'],
     };
   }
 }
 
+// Utility to automatically apply spring animations based on attributes
 function applySpringAnimationsFromAttributes() {
   const elements = document.querySelectorAll('*');
 
