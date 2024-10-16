@@ -18,7 +18,6 @@ class Spring {
     if (preset) this.applyPreset(preset);
   }
 
-  // Apply preset configurations (bouncy, smooth, flattened)
   applyPreset(preset) {
     const presets = {
       bouncy: { bounce: 0.4, stiffness: 200, damping: 5 },
@@ -30,34 +29,28 @@ class Spring {
       this.bounce = presetConfig.bounce;
       this.stiffness = presetConfig.stiffness;
       this.damping = presetConfig.damping;
-    } else {
-      console.warn(`Unknown preset: ${preset}. Using default values.`);
     }
   }
 
-  // Spring equation for bounce cases
   springEquation1(A, B, a, c, t) {
     return (A * Math.exp(a * t) + B * Math.exp(-a * t)) * Math.exp(-c * t);
   }
 
-  // Spring equation for smooth cases without bounce
   springEquation2(A, B, c, t) {
     return (A * t + B) * Math.exp(-c * t);
   }
 
-  // Calculate the spring value based on parameters
   calculateSpringValue(A, B, a, c, t) {
     if (this.bounce > 0) {
-      return this.springEquation1(A, B, a, c, t); // Use bounce equation
+      return this.springEquation1(A, B, a, c, t);
     } else {
-      return this.springEquation2(A, B, c, t); // Use smooth equation
+      return this.springEquation2(A, B, c, t);
     }
   }
 
-  // Apply spring animation to specified properties on an element
   applyToElement(element) {
-    const A = 0; // Desired position (final position)
-    const B = parseFloat(getComputedStyle(element).transform.split(',')[5]) || 0; // Current position
+    const A = 0;
+    const B = parseFloat(getComputedStyle(element).transform.split(',')[5]) || 0;
     const a = this.stiffness;
     const c = this.damping;
 
@@ -71,19 +64,22 @@ class Spring {
       const t = (time - startTime) / 1000;
 
       const newValue = this.calculateSpringValue(A, B, a, c, t);
-      element.style.transform = `translateY(${newValue}px)`; 
+      this.properties.forEach(property => {
+        element.style[property] = newValue; 
+      });
 
       if (t < this.duration) {
         requestAnimationFrame(animate);
       } else {
-        element.style.transform = `translateY(${A}px)`; // Ensure it finishes at the target position
+        this.properties.forEach(property => {
+          element.style[property] = `${A}`; 
+        });
       }
     };
 
     requestAnimationFrame(animate);
   }
 
-  // Generate cubic Bezier control points based on spring parameters
   generateBezierCurve() {
     const x1 = this.bounce > 0 ? 0.42 : (this.bounce < 0 ? 0.3 : 0.25);
     const y1 = this.bounce > 0 ? 1.75 : (this.bounce < 0 ? 0.6 : 0.1);
@@ -93,7 +89,6 @@ class Spring {
     return `cubic-bezier(${x1}, ${y1}, ${x2}, ${y2})`;
   }
 
-  // Static method to instantiate from custom attributes
   static fromAttributes(element) {
     const duration = element.getAttribute('data-spring-duration') || 0.5;
     const bounce = element.getAttribute('data-spring-bounce') || 0.2;
@@ -109,7 +104,6 @@ class Spring {
     });
   }
 
-  // Parse shorthand data-spring attribute (with improved error handling)
   static parseShorthand(springShorthand) {
     const params = springShorthand.split(',').reduce((acc, param) => {
       let [key, value] = param.split(':').map(item => item.trim());
@@ -128,9 +122,8 @@ class Spring {
   }
 }
 
-// Utility to automatically apply spring animations based on attributes
 function applySpringAnimationsFromAttributes() {
-  const elements = document.querySelectorAll('*'); // Select all elements
+  const elements = document.querySelectorAll('*');
 
   elements.forEach((element) => {
     const attributes = Array.from(element.attributes);
@@ -145,5 +138,4 @@ function applySpringAnimationsFromAttributes() {
   });
 }
 
-// Event listener to trigger animations on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', applySpringAnimationsFromAttributes);
