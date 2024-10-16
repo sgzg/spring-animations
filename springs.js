@@ -29,8 +29,6 @@ class Spring {
       this.bounce = presetConfig.bounce;
       this.stiffness = presetConfig.stiffness;
       this.damping = presetConfig.damping;
-    } else {
-      console.warn(`Unknown preset: ${preset}. Using default values.`);
     }
   }
 
@@ -51,8 +49,8 @@ class Spring {
   }
 
   applyToElement(element) {
-    const A = 0; 
-    const B = parseFloat(getComputedStyle(element).transform.split(',')[5]) || 0; 
+    const A = 0;
+    const B = parseFloat(getComputedStyle(element).transform.split(',')[5]) || 0;
     const a = this.stiffness;
     const c = this.damping;
 
@@ -110,9 +108,9 @@ class Spring {
 
   static parseShorthand(springShorthand) {
     const params = springShorthand.split(',').reduce((acc, param) => {
-      let [key, value] = param.split(':').map(item => item.trim());
+      const [key, value] = param.split(':').map(item => item.trim());
       if (key && value) {
-        acc[key] = value;
+        acc[key] = value.replace(/"/g, ''); // Remove quotes
       }
       return acc;
     }, {});
